@@ -10,7 +10,6 @@ function ScreenSource(props) {
   const [sourceList, setSourceList] = useState([])
   const [selectedLang, setSelectedLang] = useState(props.selectedLang)
 
-
   useEffect(() => {
     const APIResultsLoading = async() => {
       var langue = 'fr'
@@ -29,13 +28,25 @@ function ScreenSource(props) {
     APIResultsLoading()
   }, [selectedLang])
 
+  var saveLanguage = async () => {
+    
+    const data = await fetch('/languages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `languageFromFront=${selectedLang}`
+    })
+    
+    const body = await data.json()  
+    
+  }
+  console.log(selectedLang)
   return (
     <div>
         <Nav/>
        
        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}} className="Banner">
-          <img style={{width:'40px', margin:'10px',cursor:'pointer'}} src='/images/fr.png' onClick={() => setSelectedLang('fr')} />
-          <img style={{width:'40px', margin:'10px',cursor:'pointer'}} src='/images/uk.png' onClick={() => setSelectedLang('en')} /> 
+          <img style={{width:'40px', margin:'10px',cursor:'pointer'}} src='/images/fr.png' onClick={() => {saveLanguage(); setSelectedLang('fr')}} />
+          <img style={{width:'40px', margin:'10px',cursor:'pointer'}} src='/images/uk.png' onClick={() => {saveLanguage(); setSelectedLang('en')}} /> 
         </div>
 
        <div className="HomeThemes">

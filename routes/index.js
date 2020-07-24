@@ -6,6 +6,7 @@ var SHA256 = require('crypto-js/sha256')
 var encBase64 = require('crypto-js/enc-base64')
 
 var userModel = require('../models/users')
+var langModel = require('../models/languages')
 
 
 router.post('/sign-up', async function(req,res,next){
@@ -94,6 +95,19 @@ router.post('/sign-in', async function(req,res,next){
   res.json({result, user, error, token})
 
 
+})
+
+
+router.post('/languages', async function(req,res,next){
+
+
+    var newLang = new langModel({
+      language: req.body.languageFromFront,
+    })
+  
+    saveLang = await newLang.save()
+
+  res.json({saveLang})
 })
 
 module.exports = router;
