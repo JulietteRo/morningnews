@@ -36,6 +36,21 @@ function ScreenMyArticles(props) {
     noArticles = <div style={{marginTop:"30px"}}>No Articles</div>
   }
 
+
+  var supfavorite = async(article) => {
+    console.log("suppression");
+
+    const data = await fetch('/deletefavorite', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `titleFromFront=${article}`
+    })
+
+    const body = await data.json()
+  }
+
+
+
   return (
     <div>
          
@@ -67,7 +82,7 @@ function ScreenMyArticles(props) {
                     }
                     actions={[
                         <Icon type="read" key="ellipsis2" onClick={() => showModal(article.title,article.content)} />,
-                        <Icon type="delete" key="ellipsis" onClick={() => props.deleteToWishList(article.title)} />
+                        <Icon type="delete" key="ellipsis" onClick={() => {supfavorite(article.title);props.deleteToWishList(article.title)}} />
                     ]}
                     >
 

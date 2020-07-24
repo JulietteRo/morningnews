@@ -6,6 +6,7 @@ var SHA256 = require('crypto-js/sha256')
 var encBase64 = require('crypto-js/enc-base64')
 
 var userModel = require('../models/users')
+var favoriteModel = require('../models/favorites')
 
 
 router.post('/sign-up', async function(req,res,next){
@@ -95,5 +96,40 @@ router.post('/sign-in', async function(req,res,next){
 
 
 })
+
+
+
+router.post('/addfavorite', async function(req,res,next){
+
+    var newFavorite = new favoriteModel({
+      image: req.body.imageFromFront,
+      title: req.body.titleFromFront,
+      content: req.body.contentFromFront,
+      token: req.body.tokenFromFront,
+      language : req.body.langFromFront})
+  
+    saveFavorite = await newFavorite.save()
+  
+    
+  //   if(saveUser){
+  //     result = true
+  //     token = saveUser.token
+  //   }
+  // }
+
+  res.json("hello")
+
+
+})
+
+
+router.post('/deletefavorite', async function(req,res,next){
+
+await favoriteModel.deleteOne({title:req.body.titleFromFront});
+
+res.json("hello")
+})
+
+
 
 module.exports = router;
