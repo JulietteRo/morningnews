@@ -126,10 +126,22 @@ router.post('/addfavorite', async function(req,res,next){
 
 router.post('/deletefavorite', async function(req,res,next){
 
-await favoriteModel.deleteOne({title:req.body.titleFromFront});
+await favoriteModel.deleteOne({title:req.body.titleFromFront, token: req.body.tokenFromFront});
 
 res.json("hello")
 })
+
+
+
+
+router.post('/searcharticles', async function(req,res,next){
+
+  var searchFavorite = await favoriteModel.find({token:req.body.tokenFromFront});
+
+  res.json(searchFavorite)
+  })
+
+
 
 
 

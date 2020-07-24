@@ -31,6 +31,8 @@ export default function(wishList = [], action){
 
         return wishListCopy
         
+    } else if(action.type == 'whishlistBDD'){
+        return action.BDDlike
     } else {
         return wishList
     }

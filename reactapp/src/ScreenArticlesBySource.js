@@ -18,7 +18,6 @@ function ScreenArticlesBySource(props) {
     const findArticles = async() => {
       const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${props.match.params.id}&apiKey=2013e1d5900947f8a59249806e40063a`)
       const body = await data.json()
-      console.log(body)
       setArticleList(body.articles) 
     }
 
@@ -43,13 +42,11 @@ function ScreenArticlesBySource(props) {
   }
 
   var addfavorite = async(article) => {
-    console.log("enregistrement");
-
 
     const data = await fetch('/addfavorite', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `imageFromFront=${article.urlToImage}&titleFromFront=${article.title}&contentFromFront=${article.content}&tokenFromFront=${"?token?"}&langFromFront=${"?language?"}`
+      body: `imageFromFront=${article.urlToImage}&titleFromFront=${article.title}&contentFromFront=${article.content}&tokenFromFront=${props.searchToken}&langFromFront=${"?language?"}`
     })
 
     const body = await data.json()
@@ -123,11 +120,21 @@ function mapDispatchToProps(dispatch){
       dispatch({type: 'addArticle',
         articleLiked: article
       })
-    }
+    },
+    wishlistLoad: function(wishlist){
+      dispatch({type: 'whishlistBDD',
+        BDDlike: wishlist
+      })
+    },
+
   }
 }
 
+function mapStateToProps(state){
+  return {searchToken:state.token}
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ScreenArticlesBySource)

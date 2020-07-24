@@ -39,7 +39,8 @@ function ScreenSource(props) {
     const body = await data.json()  
     
   }
-  console.log(selectedLang)
+
+
   return (
     <div>
         <Nav/>

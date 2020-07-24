@@ -4,6 +4,7 @@ import { Card, Icon, Modal} from 'antd';
 import Nav from './Nav'
 
 import {connect} from 'react-redux'
+import {useEffect} from "react"
 
 const { Meta } = Card;
 
@@ -11,7 +12,7 @@ function ScreenMyArticles(props) {
   const [visible, setVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-
+// ((  const [myFavorite, setMyFavorite] = useState()))
 
 
   var showModal = (title, content) => {
@@ -43,11 +44,32 @@ function ScreenMyArticles(props) {
     const data = await fetch('/deletefavorite', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: `titleFromFront=${article}`
+      body: `titleFromFront=${article}&tokenFromFront=${props.searchToken}`
     })
 
     const body = await data.json()
   }
+
+
+useEffect(()=>{
+
+  var loadfavorite = async() => {
+
+    const data = await fetch('/searcharticles', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `tokenFromFront=${props.searchToken}`
+    })
+
+    const body = await data.json()
+
+    // await setMyFavorite(body)
+
+  }
+
+  loadfavorite ();
+
+},[])
 
 
 
@@ -120,18 +142,24 @@ function ScreenMyArticles(props) {
 }
 
 function mapStateToProps(state){
-  return {myArticles: state.wishList}
+  return {myArticles: state.wishList,
+          searchToken:state.token
+  }
 }
+
+
 
 function mapDispatchToProps(dispatch){
   return {
     deleteToWishList: function(articleTitle){
       dispatch({type: 'deleteArticle',
-        title: articleTitle
+                title: articleTitle
       })
     }
   }
 }
+
+
 
 
 
